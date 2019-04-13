@@ -1,12 +1,11 @@
-#include "shader.hpp"
-#include "GL/gl3w.h"
+#include "shader.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <string>
 #include <stdio.h>
 
-unsigned int loadShaderFromSource(unsigned int type, const char* source)
+unsigned int Shader::loadShaderFromSource(unsigned int type, const char* source)
 {
     unsigned int shader = glCreateShader(type);
     glShaderSource(shader, 1, &source, NULL);
@@ -30,7 +29,7 @@ unsigned int loadShaderFromSource(unsigned int type, const char* source)
     return shader;
 }
 
-unsigned int loadShaderProgramFromSource(const char* vSource, const char* fSource)
+unsigned int Shader::loadShaderProgramFromSource(const char* vSource, const char* fSource)
 {
     unsigned int program = glCreateProgram();
     GLuint vertex, fragment;
@@ -56,7 +55,7 @@ unsigned int loadShaderProgramFromSource(const char* vSource, const char* fSourc
     return program;
 }
 
-unsigned int loadShaderProgram(std::string vPath, std::string fPath)
+unsigned int Shader::loadShaderProgram(std::string vPath, std::string fPath)
 {
     std::ifstream vertex_file(vPath);
     std::stringstream buf;
@@ -71,15 +70,26 @@ unsigned int loadShaderProgram(std::string vPath, std::string fPath)
     return program;
 }
 
+Shader::Shader()
+{
+    m_id = 0;
+}
+
 Shader::Shader(std::string vPath, std::string fPath)
 {
-    m_id = loadShaderProgram(vPath, fPath);
-    m_name = vPath + "|" + fPath;
+    initialize(vPath, fPath);
 }
 
 Shader::~Shader()
 {
     glDeleteProgram(m_id);
+}
+
+void Shader::initialize(std::string vPath, std::string fPath)
+{
+    initializeOpenGLFunctions();
+    m_id = loadShaderProgram(vPath, fPath);
+    m_name = vPath + "|" + fPath;
 }
 
 unsigned int Shader::id()

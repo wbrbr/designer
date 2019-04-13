@@ -1,6 +1,6 @@
 #ifndef MATERIAL_HPP
 #define MATERIAL_HPP
-#include "texture.hpp"
+#include "texture.h"
 
 class TextureMaterial
 {

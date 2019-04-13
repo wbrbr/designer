@@ -1,7 +1,7 @@
 #ifndef OBJECT_HPP
 #define OBJECT_HPP
-#include "transform.hpp"
-#include "mesh.hpp"
+#include "transform.h"
+#include "mesh.h"
 
 struct Object
 {
