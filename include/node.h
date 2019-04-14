@@ -51,6 +51,8 @@ public:
     virtual ~Node();
     virtual std::optional<Data> compute(unsigned int num) = 0;
     void connect(unsigned int inNum, Node* other, unsigned int outNum);
+    std::vector<InputSocket>& inputs();
+    std::vector<OutputSocket>& outputs();
 
 protected:
     std::vector<InputSocket> m_inputs;

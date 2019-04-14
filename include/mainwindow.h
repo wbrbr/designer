@@ -4,6 +4,7 @@
 #include <QtWidgets>
 #include "viewportwidget.h"
 #include "texturewidget.h"
+#include "nodeeditor.h"
 
 class MainWindow : public QMainWindow
 {
@@ -14,11 +15,15 @@ public:
     ~MainWindow();
 
 private:
-    QLabel* m_label;
-    // QDockWidget* m_dockleft;
-    QLabel* m_label2;
     ViewportWidget* m_viewport;
     TextureWidget* m_texview;
+    NodeEditor* m_nodeedit;
+
+    QAction* m_addCheckersAction;
+    QAction* m_addGrayToColorAction;
+    QAction* m_addColorToGrayAction;
+
+    QMenu* m_addMenu;
 };
 
 #endif // MAINWINDOW_H

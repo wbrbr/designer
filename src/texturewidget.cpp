@@ -4,6 +4,7 @@
 
 TextureWidget::TextureWidget(QWidget* parent): QOpenGLWidget(parent), m_tex(0)
 {
+    outsock = nullptr;
 }
 
 void TextureWidget::initializeGL()
@@ -31,34 +32,8 @@ void TextureWidget::initializeGL()
     glEnableVertexAttribArray(1);
     glClearColor(0.f, 1.f, 0.f, 1.f);
 
-    m_shader.initialize("tex.vert", "tex.frag");
-    ImageTexture* tex = new ImageTexture();
-    tex->load("tex.png");
-
-    /* unsigned int gen_tex;
-    glGenTextures(1, &gen_tex);
-    glBindTexture(GL_TEXTURE_2D, gen_tex);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glGenerateMipmap(GL_TEXTURE_2D);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, 512, 512, 0, GL_RGBA, GL_FLOAT, NULL);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    QOpenGLShader comp_shader(QOpenGLShader::Compute);
-    comp_shader.compileSourceFile("damier.glsl");
-    QOpenGLShaderProgram comp_program;
-    comp_program.addShader(&comp_shader);
-    comp_program.link();
-
-    comp_program.bind();
-    glBindTexture(GL_TEXTURE_2D, gen_tex);
-    glBindImageTexture(0, gen_tex, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA32F);
-    glDispatchCompute(32, 32, 1);
-    glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
-    glBindImageTexture(0, 0, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA32F);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    glUseProgram(0); */
+    m_color_shader.initialize("tex.vert", "tex.frag");
+    m_gray_shader.initialize("tex.vert", "texgray.frag");
 
     CheckersNode ck;
     ColorToGrayscaleNode cg;
@@ -78,8 +53,17 @@ void TextureWidget::resizeGL(int w, int h)
 
 void TextureWidget::paintGL()
 {
+    Shader* shader = &m_color_shader;
+    if (outsock != nullptr) {
+        auto d = outsock->get();
+        if (d.has_value()) {
+            assert(d->type == COLOR || d->type == GRAYSCALE);
+            m_tex = d->texture;
+            if (d->type == GRAYSCALE) shader = &m_gray_shader;
+        }
+    }
     glClear(GL_COLOR_BUFFER_BIT);
-    glUseProgram(m_shader.id());
+    glUseProgram(shader->id());
     glBindTexture(GL_TEXTURE_2D, m_tex);
     glDrawArrays(GL_TRIANGLES, 0, 6);
 }
@@ -92,4 +76,17 @@ QSize TextureWidget::sizeHint() const
 void TextureWidget::setTexture(unsigned int tex)
 {
     m_tex = tex;
+}
+
+void TextureWidget::setNode(Node* n)
+{
+    assert(n != nullptr);
+    for (unsigned int i = 0; i < n->outputs().size(); i++)
+    {
+        if (n->outputs()[i].type == COLOR || n->outputs()[i].type == GRAYSCALE) {
+            outsock = &n->outputs()[i];
+            break;
+        }
+    }
+    update();
 }

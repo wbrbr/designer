@@ -8,6 +8,14 @@ Node::Node() {
 
 Node::~Node() {}
 
+std::vector<InputSocket>& Node::inputs() {
+    return m_inputs;
+}
+
+std::vector<OutputSocket>& Node::outputs() {
+    return m_outputs;
+}
+
 void Node::connect(unsigned int inNum, Node* other, unsigned int outNum)
 {
     assert(inNum < m_inputs.size());
@@ -42,7 +50,7 @@ void ImageComputeShaderNode::bindImageInput(unsigned int num, unsigned int bindi
         assert(d->type == COLOR || d->type == GRAYSCALE);
         glBindImageTexture(binding, d->texture, 0, GL_FALSE, 0, GL_READ_ONLY, d->type == COLOR ? GL_RGBA32F : GL_R32F);
     } else {
-        std::cout << "coucou" << std::endl;
+        glBindImageTexture(binding, 0, 0, GL_FALSE, 0, GL_READ_ONLY, GL_R32F);
     }
 }
 

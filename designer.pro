@@ -31,7 +31,8 @@ SOURCES += \
     src/shader.cpp \
     src/texturewidget.cpp \
     src/texture.cpp \
-    src/node.cpp
+    src/node.cpp \
+    src/nodeeditor.cpp
 
 HEADERS += \
         include/mainwindow.h \
@@ -46,7 +47,8 @@ HEADERS += \
     include/camera.h \
     include/texturewidget.h \
     include/stb_image.h \
-    include/node.h
+    include/node.h \
+    include/nodeeditor.h
 
 INCLUDEPATH += include/
 
@@ -62,7 +64,8 @@ DISTFILES += \
     tex.frag \
     damier.glsl \
     color2gray.glsl \
-    gray2color.glsl
+    gray2color.glsl \
+    texgray.frag
 
 copydata.commands = $(COPY_DIR) $$PWD/simple.vert \
                                 $$PWD/simple.frag \
@@ -72,6 +75,7 @@ copydata.commands = $(COPY_DIR) $$PWD/simple.vert \
                                 $$PWD/damier.glsl \
                                 $$PWD/color2gray.glsl \
                                 $$PWD/gray2color.glsl \
+                                $$PWD/texgray.frag \
                     $$OUT_PWD
 first.depends = $(first) copydata
 export(first.depends)
