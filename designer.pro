@@ -32,7 +32,9 @@ SOURCES += \
     src/texturewidget.cpp \
     src/texture.cpp \
     src/node.cpp \
-    src/nodeeditor.cpp
+    src/nodeeditor.cpp \
+    src/nodeproperty.cpp \
+    src/propertyeditor.cpp
 
 HEADERS += \
         include/mainwindow.h \
@@ -48,7 +50,10 @@ HEADERS += \
     include/texturewidget.h \
     include/stb_image.h \
     include/node.h \
-    include/nodeeditor.h
+    include/nodeeditor.h \
+    include/propertyeditor.h \
+    include/nodeproperty.h \
+    include/color.h
 
 INCLUDEPATH += include/
 

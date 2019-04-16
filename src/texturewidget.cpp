@@ -90,3 +90,8 @@ void TextureWidget::setNode(Node* n)
     }
     update();
 }
+
+void TextureWidget::needsUpdate()
+{
+    update();
+}

@@ -133,6 +133,7 @@ void NodeEditor::mousePressEvent(QMouseEvent *event)
     m_last_drag_pos = event->pos();
     m_sel_output_socket = getOutputSocketAt(event->pos());
     if (m_sel_output_socket == nullptr) m_dragged_node = getNodeAt(event->pos());
+    if (m_dragged_node != nullptr) selectNode(m_dragged_node->node);
 }
 
 void NodeEditor::mouseDoubleClickEvent(QMouseEvent *event)

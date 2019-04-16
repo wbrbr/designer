@@ -15,6 +15,7 @@ public:
 
 public slots:
     void setNode(Node* n);
+    void needsUpdate();
 
 protected:
     void initializeGL() override;

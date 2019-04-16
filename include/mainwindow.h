@@ -5,6 +5,7 @@
 #include "viewportwidget.h"
 #include "texturewidget.h"
 #include "nodeeditor.h"
+#include "propertyeditor.h"
 
 class MainWindow : public QMainWindow
 {
@@ -18,6 +19,7 @@ private:
     ViewportWidget* m_viewport;
     TextureWidget* m_texview;
     NodeEditor* m_nodeedit;
+    PropertyEditor* m_propedit;
 
     QAction* m_addCheckersAction;
     QAction* m_addGrayToColorAction;

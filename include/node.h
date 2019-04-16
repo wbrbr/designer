@@ -6,6 +6,8 @@
 #include <QOpenGLFunctions_4_3_Core>
 #include <QOpenGLShaderProgram>
 
+#include "nodeproperty.h"
+
 enum SocketType
 {
     GRAYSCALE,
@@ -53,10 +55,14 @@ public:
     void connect(unsigned int inNum, Node* other, unsigned int outNum);
     std::vector<InputSocket>& inputs();
     std::vector<OutputSocket>& outputs();
+    std::map<std::string, NodeProperty*>& properties();
 
 protected:
     std::vector<InputSocket> m_inputs;
     std::vector<OutputSocket> m_outputs;
+    std::map<std::string, NodeProperty*> m_properties;
+
+    template<class T> T* getProp(std::string name);
 };
 
 class ImageComputeShaderNode: public Node

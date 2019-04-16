@@ -21,7 +21,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     m_texview = new TextureWidget(m_dock);
     m_dock->setWidget(m_texview);
 
+    m_dock = new QDockWidget("Properties", this);
+    m_dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    addDockWidget(Qt::RightDockWidgetArea, m_dock);
+    m_propedit = new PropertyEditor(m_dock);
+    m_dock->setWidget(m_propedit);
+
     connect(m_nodeedit, &NodeEditor::previewNode, m_texview, &TextureWidget::setNode);
+    connect(m_nodeedit, &NodeEditor::selectNode, m_propedit, &PropertyEditor::editNode);
+    connect(m_propedit, &PropertyEditor::propertyChanged, m_texview, &TextureWidget::needsUpdate);
 
     m_addCheckersAction = new QAction("Add Checkers", this);
     connect(m_addCheckersAction, &QAction::triggered, [=]{

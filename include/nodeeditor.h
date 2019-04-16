@@ -46,6 +46,7 @@ public:
 
 signals:
     void previewNode(Node* n);
+    void selectNode(Node* n);
 
 private:
     std::vector<NodeUI> m_nodes;
