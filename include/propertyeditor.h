@@ -19,7 +19,7 @@ signals:
 
 private:
     Node* m_node;
-    QBoxLayout* m_layout;
+    QFormLayout* m_layout;
     std::vector<QWidget*> m_widgets;
 
     void clear();

@@ -3,7 +3,8 @@
 
 PropertyEditor::PropertyEditor(QWidget* parent): QWidget(parent)
 {
-    m_layout = new QBoxLayout(QBoxLayout::TopToBottom, this);
+    m_layout = new QFormLayout(this);
+    setLayout(m_layout);
     m_node = nullptr;
 }
 
@@ -26,7 +27,7 @@ void PropertyEditor::editNode(Node* n)
                     ip->val = val;
                     propertyChanged();
                 });
-                m_layout->addWidget(slider);
+                m_layout->addRow(QString::fromStdString(it.first), slider);
                 break; }
 
             case PROP_FLOAT: {
@@ -39,20 +40,21 @@ void PropertyEditor::editNode(Node* n)
                     fp->val = (float)val / 1000.f;
                     propertyChanged();
                 });
-                m_layout->addWidget(slider);
+                m_layout->addRow(QString::fromStdString(it.first), slider);
                 break; }
 
             case PROP_COLOR: {
                 ColorNodeProperty* cp = static_cast<ColorNodeProperty*>(p);
                 QPushButton* button = new QPushButton("Pick color",this);
                 connect(button, &QPushButton::released, this, [=] {
-                    QColor col = QColorDialog::getColor();
+                    QColor init((int)(cp->val.r*255.f), (int)(cp->val.g*255.f), (int)(cp->val.b*255.f));
+                    QColor col = QColorDialog::getColor(init, this);
                     cp->val.r = col.redF();
                     cp->val.g = col.greenF();
                     cp->val.b = col.blueF();
                     propertyChanged();
                 });
-                m_layout->addWidget(button);
+                m_layout->addRow(QString::fromStdString(it.first), button);
                 break; }
             }
         }
