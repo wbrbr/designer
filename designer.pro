@@ -24,6 +24,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++17
 
+LIBS += -lassimp
+
 SOURCES += \
         src/main.cpp \
         src/mainwindow.cpp \
@@ -34,7 +36,8 @@ SOURCES += \
     src/node.cpp \
     src/nodeeditor.cpp \
     src/nodeproperty.cpp \
-    src/propertyeditor.cpp
+    src/propertyeditor.cpp \
+    src/mesh.cpp
 
 HEADERS += \
         include/mainwindow.h \
@@ -62,26 +65,9 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-DISTFILES += \
-    simple.vert \
-    simple.frag \
-    tex.vert \
-    tex.frag \
-    damier.glsl \
-    color2gray.glsl \
-    gray2color.glsl \
-    texgray.frag
+DISTFILES = shaders/* compute/*
 
-copydata.commands = $(COPY_DIR) $$PWD/simple.vert \
-                                $$PWD/simple.frag \
-                                $$PWD/tex.vert \
-                                $$PWD/tex.frag \
-                                $$PWD/tex.png \
-                                $$PWD/damier.glsl \
-                                $$PWD/color2gray.glsl \
-                                $$PWD/gray2color.glsl \
-                                $$PWD/texgray.frag \
-                    $$OUT_PWD
+copydata.commands = $(COPY_DIR) $$PWD/shaders $$PWD/compute $$OUT_PWD
 first.depends = $(first) copydata
 export(first.depends)
 export(copydata.commands)

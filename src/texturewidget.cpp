@@ -32,8 +32,8 @@ void TextureWidget::initializeGL()
     glEnableVertexAttribArray(1);
     glClearColor(0.f, 1.f, 0.f, 1.f);
 
-    m_color_shader.initialize("tex.vert", "tex.frag");
-    m_gray_shader.initialize("tex.vert", "texgray.frag");
+    m_color_shader.initialize("shaders/tex.vert", "shaders/tex.frag");
+    m_gray_shader.initialize("shaders/tex.vert", "shaders/texgray.frag");
 
     CheckersNode ck;
     ColorToGrayscaleNode cg;

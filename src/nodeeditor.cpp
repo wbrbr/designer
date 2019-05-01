@@ -28,6 +28,7 @@ void NodeEditor::paintEvent(QPaintEvent *event)
     for (auto it : m_nodes)
     {
         p.drawRect(it.pos.x(), it.pos.y(), 90, 90);
+        p.drawText(it.pos.x(), it.pos.y(), 90, 90, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextWordWrap, QString::fromStdString(it.node->name()));
 
         int y = it.pos.y() + 15;
 

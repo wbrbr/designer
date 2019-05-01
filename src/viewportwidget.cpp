@@ -22,7 +22,7 @@ void ViewportWidget::initializeGL()
     glEnableVertexAttribArray(0);
     glClearColor(0.f, 0.f, 1.f, 1.f);
 
-    m_shader.initialize("simple.vert", "simple.frag");
+    m_shader.initialize("shaders/simple.vert", "shaders/simple.frag");
 }
 
 void ViewportWidget::resizeGL(int w, int h)

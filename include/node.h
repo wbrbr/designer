@@ -56,8 +56,10 @@ public:
     std::vector<InputSocket>& inputs();
     std::vector<OutputSocket>& outputs();
     std::map<std::string, NodeProperty*>& properties();
+    std::string name();
 
 protected:
+    std::string m_name;
     std::vector<InputSocket> m_inputs;
     std::vector<OutputSocket> m_outputs;
     std::map<std::string, NodeProperty*> m_properties;

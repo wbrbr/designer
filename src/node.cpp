@@ -26,6 +26,10 @@ std::map<std::string, NodeProperty*>& Node::properties() {
     return m_properties;
 }
 
+std::string Node::name() {
+    return m_name;
+}
+
 template<class T> T* Node::getProp(std::string name) {
     return static_cast<T*>(m_properties.at(name));
 }
@@ -70,6 +74,7 @@ void ImageComputeShaderNode::bindImageInput(unsigned int num, unsigned int bindi
 
 CheckersNode::CheckersNode()
 {
+    m_name = "Checkers";
     m_outputs.push_back(OutputSocket());
     m_outputs[0].num = 0;
     m_outputs[0].name = "out";
@@ -101,7 +106,7 @@ CheckersNode::CheckersNode()
     glBindTexture(GL_TEXTURE_2D, 0);
 
     QOpenGLShader comp_shader(QOpenGLShader::Compute);
-    comp_shader.compileSourceFile("damier.glsl");
+    comp_shader.compileSourceFile("compute/damier.glsl");
     m_shader.addShader(&comp_shader);
     m_shader.link();
 }
@@ -127,6 +132,7 @@ std::optional<Data> CheckersNode::compute(unsigned int num)
 
 ColorToGrayscaleNode::ColorToGrayscaleNode()
 {
+    m_name = "Color to Grayscale";
     m_outputs.push_back(OutputSocket());
     m_outputs[0].num = 0;
     m_outputs[0].name = "grayscale";
@@ -150,7 +156,7 @@ ColorToGrayscaleNode::ColorToGrayscaleNode()
     glBindTexture(GL_TEXTURE_2D, 0);
 
     QOpenGLShader comp_shader(QOpenGLShader::Compute);
-    comp_shader.compileSourceFile("color2gray.glsl");
+    comp_shader.compileSourceFile("compute/color2gray.glsl");
     m_shader.addShader(&comp_shader);
     m_shader.link();
 }
@@ -174,6 +180,7 @@ std::optional<Data> ColorToGrayscaleNode::compute(unsigned int num)
 
 GrayscaleToColorNode::GrayscaleToColorNode()
 {
+    m_name = "Grayscale to Color";
     m_outputs.push_back(OutputSocket());
     m_outputs[0].num = 0;
     m_outputs[0].name = "color";
@@ -197,7 +204,7 @@ GrayscaleToColorNode::GrayscaleToColorNode()
     glBindTexture(GL_TEXTURE_2D, 0);
 
     QOpenGLShader comp_shader(QOpenGLShader::Compute);
-    comp_shader.compileSourceFile("gray2color.glsl");
+    comp_shader.compileSourceFile("compute/gray2color.glsl");
     m_shader.addShader(&comp_shader);
     m_shader.link();
 
